@@ -1,19 +1,34 @@
-import { serializable } from 'serializr';
+import { list, object, primitive, serializable } from 'serializr';
+import { Album } from './album';
+import { Lyrics } from './lyrics';
 
 export class Song {
   @serializable
   name: string;
-  @serializable
-  artist: string;
-  @serializable
-  album?: string;
-  @serializable
-  albumUrl?: string;
 
-  constructor(name: string, artist: string, album?: string, albumUrl?: string) {
+  @serializable
+  duration?: number;
+
+  @serializable(list(primitive()))
+  artists: string[];
+
+  @serializable(object(Album))
+  album?: Album;
+
+  @serializable(object(Lyrics))
+  lyrics?: Lyrics;
+
+  constructor(
+    name: string,
+    artists: string[],
+    duration?: number,
+    album?: Album,
+    lyrics?: Lyrics,
+  ) {
     this.name = name;
-    this.artist = artist;
+    this.duration = duration;
+    this.artists = artists;
     this.album = album;
-    this.albumUrl = albumUrl;
+    this.lyrics = lyrics;
   }
 }

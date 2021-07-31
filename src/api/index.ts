@@ -11,6 +11,6 @@ export const ExpressApp = () => {
   app.use('/lyrics', bodyParser.json(), lyricsRouter);
 
   app.listen(PORT, () =>
-    console.log(`.::Magic happens at port ${process.env.PORT || 3000}::.`),
+    console.log(`.::Magic happens at port ${PORT}::.`),
   );
 };

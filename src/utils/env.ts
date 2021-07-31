@@ -11,7 +11,7 @@ for (const property of mandatory) {
   }
 }
 
-export const PORT = process.env.PORT || 3000;
+export const PORT = process.env.PORT || 4000;
 export const FLAT_CACHE_ID = process.env.FLAT_CACHE_ID || 'lyrics_cache';
 export const FLAT_CACHE_PATH =
   process.env.FLAT_CACHE_PATH || 'temp/lyrics_cache';

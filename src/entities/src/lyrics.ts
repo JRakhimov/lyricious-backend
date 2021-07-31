@@ -1,20 +1,13 @@
-import { Song } from '../';
-import { serializable, object } from 'serializr';
+import { serializable } from 'serializr';
 
 export class Lyrics {
   @serializable
   service: string;
   @serializable
-  url: string;
-  @serializable
-  content: string;
-  @serializable(object(Song))
-  song: Song;
+  text: string;
 
-  constructor(service: string, url: string, content: string, song: Song) {
+  constructor(service: string, text: string) {
     this.service = service;
-    this.url = url;
-    this.content = content;
-    this.song = song;
+    this.text = text;
   }
 }
