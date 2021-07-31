@@ -2,6 +2,7 @@ import { RequestHandler } from 'express';
 import { LyricsService } from '../../../../services';
 import { Song } from '../../../../entities';
 import { serialize } from 'serializr';
+import { NeteaseUtils } from '../../../../utils';
 
 export const getLyrics: RequestHandler = async (req, res) => {
   const name = req.body.name;
@@ -13,10 +14,20 @@ export const getLyrics: RequestHandler = async (req, res) => {
       .json({ status: false, message: "Params 'name', 'artist' are required" });
   }
 
-  const lyrics = await LyricsService.getLyrics(new Song(name, [artist]));
+  const song = new Song(name, [artist]);
+  const lyrics = await LyricsService.getLyrics(song);
 
   if (lyrics) {
-    return res.status(200).json(serialize(lyrics));
+    song.lyrics = lyrics;
+
+    return res.status(200).json({
+      ...serialize(song),
+      lyrics: {
+        service: lyrics.service,
+        withTimeCode: lyrics.withTimeCode,
+        text: serialize(NeteaseUtils.parseLyrics(lyrics.text)),
+      },
+    });
   }
 
   return res.status(200).json({ status: false });

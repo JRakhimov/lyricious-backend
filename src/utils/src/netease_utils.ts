@@ -119,7 +119,7 @@ export class NeteaseUtils {
           text = sify(text).replace(/\.|,|\?|!|;$/u, '');
         }
 
-        if (!matchResult.length && options.keepPlainText) {
+        if (!matchResult.length || options.keepPlainText) {
           return [new Line(text)];
         }
 
@@ -151,7 +151,8 @@ export class NeteaseUtils {
       .filter(({ text }, index, arr) => {
         if (index) {
           const prevEle = arr[index - 1];
-          if (prevEle.text === text && text === '') {
+
+          if (prevEle.text === text || text === '') {
             return false;
           }
         }

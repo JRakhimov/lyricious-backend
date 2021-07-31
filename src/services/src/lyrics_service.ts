@@ -13,11 +13,11 @@ export enum LyricsServices {
 }
 
 export class LyricsService {
-  static async getLyrics(song: Song): Promise<Song | null> {
+  static async getLyrics(song: Song): Promise<Lyrics | null> {
     const databaseService = IocContext.DefaultInstance.get(DatabaseService);
     const cached = await databaseService.getSongs(song.name, song.artists);
 
-    if (cached) return cached;
+    if (cached) return cached.lyrics;
 
     const services: Array<(Song) => Promise<Lyrics>> = [
       LyricsService.netease,
@@ -30,10 +30,9 @@ export class LyricsService {
 
       if (lyrics) {
         song.lyrics = lyrics;
-
         databaseService.insertSong(song);
 
-        return song;
+        return lyrics;
       }
     }
   }
@@ -45,7 +44,12 @@ export class LyricsService {
 
     if (id != 0) {
       const lyrics = await NeteaseService.fetchLyric(id);
-      return new Lyrics(LyricsServices.netease, lyrics);
+
+      return new Lyrics(
+        LyricsServices.netease,
+        lyrics,
+        Lyrics.withTimeCodeCheck(lyrics),
+      );
     }
   }
 
@@ -60,7 +64,12 @@ export class LyricsService {
     const soup = new JSSoup(body, 'html.parser');
     const lyrics = soup.find('div', { class: 'lyrics' });
 
-    if (lyrics != null) return new Lyrics(LyricsServices.genius, lyrics.text);
+    if (lyrics != null)
+      return new Lyrics(
+        LyricsServices.genius,
+        lyrics.text,
+        Lyrics.withTimeCodeCheck(lyrics),
+      );
   }
 
   static async musixMatch(song: Song): Promise<Lyrics | null> {
@@ -112,7 +121,11 @@ export class LyricsService {
           lyrics = lyrics.split('\\n').join('\n');
           lyrics = lyrics.split('\\').join('');
 
-          return new Lyrics(LyricsServices.musixMatch, lyrics);
+          return new Lyrics(
+            LyricsServices.musixMatch,
+            lyrics,
+            Lyrics.withTimeCodeCheck(lyrics),
+          );
         }
       }
     }
