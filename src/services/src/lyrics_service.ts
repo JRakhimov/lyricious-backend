@@ -48,16 +48,19 @@ export class LyricsService {
 
     if (id != 0) {
       const lyrics = await NeteaseService.fetchLyric(id);
-      let fixedLyrics = lyrics
-        .split('\n')
-        .filter((line) => !/作词|作曲|制作人/.test(line))
-        .join('\n');
 
-      return new Lyrics(
-        LyricsServices.netease,
-        fixedLyrics,
-        Lyrics.withTimeCodeCheck(fixedLyrics),
-      );
+      if (lyrics) {
+        let fixedLyrics = lyrics
+          .split('\n')
+          .filter((line) => !/作词|作曲|制作人/.test(line))
+          .join('\n');
+
+        return new Lyrics(
+          LyricsServices.netease,
+          fixedLyrics,
+          Lyrics.withTimeCodeCheck(fixedLyrics),
+        );
+      }
     }
   }
 
