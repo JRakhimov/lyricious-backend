@@ -20,23 +20,27 @@
   },
   "homepage": "https://github.com/JRakhimov/lyrics#readme",
   "dependencies": {
+    "@types/chalk": "^2.2.0",
     "NeteaseCloudMusicApi": "^4.0.17",
     "app-root-path": "^3.0.0",
     "arangojs": "^7.5.0",
     "body-parser": "^1.19.0",
+    "chalk": "^4.1.2",
     "chinese-conv": "^1.0.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jssoup": "0.0.12",
     "node-fetch": "^2.6.1",
     "power-di": "^2.4.8",
-    "serializr": "^2.0.5"
+    "serializr": "^2.0.5",
+    "spotify-web-api-node": "^5.0.2"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
     "@types/flat-cache": "^2.0.0",
     "@types/node": "^16.4.1",
     "@types/node-fetch": "^2.5.12",
+    "@types/spotify-web-api-node": "^5.0.3",
     "@typescript-eslint/eslint-plugin": "^4.28.4",
     "eslint": "^7.31.0",
     "eslint-config-prettier": "^8.3.0",

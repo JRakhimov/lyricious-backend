@@ -2,6 +2,7 @@ import { Database, aql } from 'arangojs';
 import { injectable } from 'power-di';
 import { Song } from '../../entities';
 import { deserialize, serialize } from 'serializr';
+import { DB_NAME, DB_PASSWORD, DB_URL, DB_USER } from '../../utils/env';
 
 @injectable()
 export class DatabaseService {
@@ -9,10 +10,11 @@ export class DatabaseService {
 
   constructor() {
     this.db = new Database({
-      databaseName: 'Lyricious',
+      url: DB_URL,
+      databaseName: DB_NAME,
       auth: {
-        username: 'root',
-        password: 'root',
+        username: DB_USER,
+        password: DB_PASSWORD,
       },
     });
   }

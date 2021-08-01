@@ -247,7 +247,7 @@ export class NeteaseUtils {
     let score = 0;
 
     songs.forEach((song) => {
-      const DURATION_WEIGHT = duration != null ? 10 : 0;
+      const DURATION_WEIGHT = duration != null ? 3 : 0;
       let currentScore = 0;
 
       // if (

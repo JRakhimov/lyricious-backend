@@ -8,7 +8,7 @@ import { NeteaseService } from './netease_service';
 
 export enum LyricsServices {
   netease = 'Netease',
-  musixMatch = 'musixMatch',
+  musixMatch = 'MusixMatch',
   genius = 'Genius',
 }
 
@@ -30,7 +30,8 @@ export class LyricsService {
 
       if (lyrics) {
         song.lyrics = lyrics;
-        databaseService.insertSong(song);
+
+        if (lyrics.text.length > 0) databaseService.insertSong(song);
 
         return lyrics;
       }
@@ -40,6 +41,9 @@ export class LyricsService {
   static async netease(song: Song): Promise<Lyrics | null> {
     const { id } = await NeteaseUtils.matchingLyrics(
       new LyricsQuery(song.name, song.artists[0]),
+      {
+        duration: song.duration,
+      },
     );
 
     if (id != 0) {
