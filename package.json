@@ -33,6 +33,7 @@
     "node-fetch": "^2.6.1",
     "power-di": "^2.4.8",
     "serializr": "^2.0.5",
+    "socks-proxy-agent": "^6.0.0",
     "spotify-web-api-node": "^5.0.2"
   },
   "devDependencies": {

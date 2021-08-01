@@ -5,6 +5,7 @@ import { IocContext } from 'power-di';
 import { DatabaseService } from './database_service';
 import { NeteaseUtils } from '../../utils';
 import { NeteaseService } from './netease_service';
+import SocksProxyAgent from 'socks-proxy-agent/dist/agent';
 
 export enum LyricsServices {
   netease = 'Netease',
@@ -13,6 +14,8 @@ export enum LyricsServices {
 }
 
 export class LyricsService {
+  static agent = new SocksProxyAgent('socks5h://127.0.0.1:9050');
+
   static async getLyrics(song: Song): Promise<Lyrics | null> {
     const databaseService = IocContext.DefaultInstance.get(DatabaseService);
     const cached = await databaseService.getSongs(song.name, song.artists);
@@ -95,6 +98,7 @@ export class LyricsService {
 
     const body = await fetch(encodeURI(url), {
       headers,
+      agent: LyricsService.agent,
     }).then((response) => response.text());
 
     const soup = new JSSoup(body, 'html.parser');
