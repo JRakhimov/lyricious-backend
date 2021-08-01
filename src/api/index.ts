@@ -11,8 +11,6 @@ export const ExpressApp = () => {
 
   app.use('/lyrics', bodyParser.json(), lyricsRouter);
 
-  console.log('L14 PORT:', PORT);
-
   app.listen(PORT, () =>
     Logger.log('magenta', [`.::Magic happens at port ${PORT}::.`]),
   );
