@@ -1,7 +1,7 @@
-import appRoot from 'app-root-path';
+import * as appRoot from 'app-root-path';
 import { config } from 'dotenv';
 
-config({ path: `${appRoot}/.env` });
+config({ path: `${appRoot.path}/.env` });
 
 const mandatory = ['DB_NAME', 'DB_USER', 'DB_PASSWORD'];
 

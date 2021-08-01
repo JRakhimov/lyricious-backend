@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import { lyricsRouter } from './routes';
 import { PORT } from '../utils/env';
+import { Logger } from '../utils';
 
 export const ExpressApp = () => {
   const app = express();
@@ -10,7 +11,9 @@ export const ExpressApp = () => {
 
   app.use('/lyrics', bodyParser.json(), lyricsRouter);
 
+  console.log('L14 PORT:', PORT);
+
   app.listen(PORT, () =>
-    console.log(`.::Magic happens at port ${PORT}::.`),
+    Logger.log('magenta', [`.::Magic happens at port ${PORT}::.`]),
   );
 };
