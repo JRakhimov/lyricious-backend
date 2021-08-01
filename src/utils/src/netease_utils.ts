@@ -94,6 +94,7 @@ export class NeteaseUtils {
       '原唱|翻唱|题字|文案|海报|古筝|二胡|钢琴|吉他|贝斯|笛子|鼓|弦乐',
       'lrc|publish|vocal|guitar|program|produce|write',
     ];
+
     const otherInfoRegexp = new RegExp(
       `^(${otherInfoKeys.join('|')}).*(:|：)`,
       'i',
@@ -127,6 +128,7 @@ export class NeteaseUtils {
           const matchResut = slice.match(/[^\[\]]+/g);
           const [key, value] = matchResut?.[0].split(':') || [];
           const [min, sec] = [parseFloat(key), parseFloat(value)];
+
           if (!isNaN(min)) {
             if (!options.cleanLyrics || !otherInfoRegexp.test(text)) {
               return new Line(text, Math.round((min * 60 + sec) * 100) / 100);

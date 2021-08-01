@@ -25,7 +25,7 @@ export const getLyrics: RequestHandler = async (req, res) => {
       lyrics: {
         service: lyrics.service,
         withTimeCode: lyrics.withTimeCode,
-        text: serialize(NeteaseUtils.parseLyrics(lyrics.text)),
+        lines: serialize(NeteaseUtils.parseLyrics(lyrics.text)),
       },
     });
   }
