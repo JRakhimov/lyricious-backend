@@ -1,40 +1,35 @@
-import { Database, aql } from 'arangojs';
 import { injectable } from 'power-di';
 import { Song } from '../../entities';
+import * as admin from 'firebase-admin';
 import { deserialize, serialize } from 'serializr';
-import { DB_NAME, DB_PASSWORD, DB_URL, DB_USER } from '../../utils/env';
+const CyrillicToTranslit = require('cyrillic-to-translit-js');
 
 @injectable()
 export class DatabaseService {
-  db: Database;
+  db: admin.database.Database;
+  translit: typeof CyrillicToTranslit;
 
   constructor() {
-    this.db = new Database({
-      url: DB_URL,
-      databaseName: DB_NAME,
-      auth: {
-        username: DB_USER,
-        password: DB_PASSWORD,
-      },
-    });
+    this.db = admin.database();
+    this.translit = new CyrillicToTranslit({ preset: 'ru' });
   }
 
-  async getSongs(name: string, artists: string[]): Promise<Song | null> {
-    const songs = await this.db.query(aql`
-      for song in songsView
-        filter like(song.name, ${name}, true)
-        filter count(intersection(song.artists, ${artists})) > 0
-        return song
-    `);
+  private _genPath(songName: string, artist: string): string {
+    return this.translit.transform(`songs/${songName}_${artist}`);
+  }
 
-    const allSongs = await songs.all();
+  async getSongs(songName: string, artist: string): Promise<Song | null> {
+    const song = await this.db
+      .ref(this._genPath(songName, artist))
+      .once('value')
+      .then((x) => x.val());
 
-    if (allSongs.length > 0) {
-      return deserialize(Song, allSongs[0]);
-    }
+    if (song) return deserialize(Song, song);
   }
 
   async insertSong(song: Song) {
-    await this.db.query(aql`insert ${serialize(song)} into songs`);
+    await this.db
+      .ref(this._genPath(song.name, song.artist))
+      .set(JSON.parse(JSON.stringify(song)));
   }
 }

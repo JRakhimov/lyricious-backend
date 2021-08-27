@@ -1,4 +1,4 @@
-import { list, object, primitive, serializable } from 'serializr';
+import { object, serializable } from 'serializr';
 import { Album } from './album';
 import { Lyrics } from './lyrics';
 
@@ -9,8 +9,8 @@ export class Song {
   @serializable
   duration?: number;
 
-  @serializable(list(primitive()))
-  artists: string[];
+  @serializable
+  artist: string;
 
   @serializable(object(Album))
   album?: Album;
@@ -20,14 +20,14 @@ export class Song {
 
   constructor(
     name: string,
-    artists: string[],
+    artist: string,
     duration?: number,
     album?: Album,
     lyrics?: Lyrics,
   ) {
     this.name = name;
     this.duration = duration;
-    this.artists = artists;
+    this.artist = artist;
     this.album = album;
     this.lyrics = lyrics;
   }

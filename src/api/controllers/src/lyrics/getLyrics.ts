@@ -25,7 +25,7 @@ export const getLyrics: RequestHandler = async (req, res) => {
 
   Logger.time('Benchmark');
 
-  const song = new Song(name, [artist], duration);
+  const song = new Song(name, artist, duration);
   const lyrics = await LyricsService.getLyrics(song);
 
   Logger.timeEnd('Benchmark', 'green');

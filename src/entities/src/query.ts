@@ -1,14 +1,14 @@
-import { serializable } from "serializr";
+import { serializable } from 'serializr';
 
 export class LyricsQuery {
   @serializable
   name: string;
 
   @serializable
-  artists: string;
+  artist: string;
 
-  constructor(name: string, artists: string) {
+  constructor(name: string, artist: string) {
     this.name = name;
-    this.artists = artists;
+    this.artist = artist;
   }
 }

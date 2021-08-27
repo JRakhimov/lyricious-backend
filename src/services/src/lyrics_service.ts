@@ -14,11 +14,11 @@ export enum LyricsServices {
 }
 
 export class LyricsService {
-  static agent = new SocksProxyAgent('socks5h://127.0.0.1:9050');
+  // static agent = new SocksProxyAgent('socks5h://127.0.0.1:9050');
 
   static async getLyrics(song: Song): Promise<Lyrics | null> {
     const databaseService = IocContext.DefaultInstance.get(DatabaseService);
-    const cached = await databaseService.getSongs(song.name, song.artists);
+    const cached = await databaseService.getSongs(song.name, song.artist);
 
     if (cached) return cached.lyrics;
 
@@ -43,7 +43,7 @@ export class LyricsService {
 
   static async netease(song: Song): Promise<Lyrics | null> {
     const { id } = await NeteaseUtils.matchingLyrics(
-      new LyricsQuery(song.name, song.artists[0]),
+      new LyricsQuery(song.name, song.artist),
       {
         duration: song.duration,
       },
@@ -68,7 +68,7 @@ export class LyricsService {
   }
 
   static async genius(song: Song): Promise<Lyrics | null> {
-    const url = `https://genius.com/${song.artists[0]
+    const url = `https://genius.com/${song.artist
       .split(' ')
       .join('-')}-${song.name.split(' ').join('-')}-lyrics`;
 
@@ -87,7 +87,7 @@ export class LyricsService {
   }
 
   static async musixMatch(song: Song): Promise<Lyrics | null> {
-    const url = `https://www.musixmatch.com/search/${song.artists[0]
+    const url = `https://www.musixmatch.com/search/${song.artist
       .split(' ')
       .join('-')}-${song.name.split(' ').join('-')}`;
 
@@ -98,7 +98,7 @@ export class LyricsService {
 
     const body = await fetch(encodeURI(url), {
       headers,
-      agent: LyricsService.agent,
+      // agent: LyricsService.agent,
     }).then((response) => response.text());
 
     const soup = new JSSoup(body, 'html.parser');

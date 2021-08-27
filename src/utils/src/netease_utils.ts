@@ -205,7 +205,7 @@ export class NeteaseUtils {
       // fetchTransName = fetchChineseName,
     } = options;
 
-    const { name = '', artists = '' } = query;
+    const { name = '', artist = '' } = query;
 
     const queryName = NeteaseUtils.normalize(name);
     const queryName1 = queryName.toLowerCase();
@@ -216,7 +216,7 @@ export class NeteaseUtils {
     const queryName6 = NeteaseUtils.getText(
       NeteaseUtils.removeSongFeat(NeteaseUtils.ignoreAccented(queryName2)),
     );
-    const queryArtistsArr = artists
+    const queryArtistsArr = artist
       .split(',')
       .map((e) => NeteaseUtils.normalize(e.trim()))
       .sort();
