@@ -19,6 +19,9 @@
     "url": "https://github.com/JRakhimov/lyrics/issues"
   },
   "homepage": "https://github.com/JRakhimov/lyrics#readme",
+  "engines": {
+    "node": "16.6.1"
+  },
   "dependencies": {
     "@types/chalk": "^2.2.0",
     "app-root-path": "^3.0.0",
