@@ -13,3 +13,7 @@ for (const property of mandatory) {
 
 export const PORT = process.env.PORT || 4000;
 export const DB_URL = process.env.DB_URL!;
+export const SPOTIFY_CLIENT_ID: string | undefined =
+  process.env.SPOTIFY_CLIENT_ID;
+export const SPOTIFY_CLIENT_SECRET: string | undefined =
+  process.env.SPOTIFY_CLIENT_SECRET;

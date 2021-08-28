@@ -4,6 +4,9 @@ import { Lyrics } from './lyrics';
 
 export class Song {
   @serializable
+  spotifyId?: string;
+
+  @serializable
   name: string;
 
   @serializable
